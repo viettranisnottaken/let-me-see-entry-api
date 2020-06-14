@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  gender: 1
+  birthdate: 2020-06-12 14:10:07
+  school_id: 1
+
+two:
+  name: MyString
+  gender: 1
+  birthdate: 2020-06-12 14:10:07
+  school_id: 1

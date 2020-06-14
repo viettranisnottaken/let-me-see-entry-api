@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: let_me_see_entry
+  password: 123456 #<-- which you have defiend while installing postgresql
+  pool: 5
+  host: localhost
+
+development:
+  <<: *default
+  database: let_me_see_entry
+
+test:
+  <<: *default
+  database: let_me_see_entry
+
+production:
+  <<: *default
+  database: let_me_see_entry
+  username: let_me_see_entry
+  password: 123456
