@@ -1,0 +1,637 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "ニゴリチェッカー"
+  description: Updated at - 13/106/2020
+servers:
+  - url: "https://sheltered-temple-61929.herokuapp.com/"
+paths:
+  /api/v1/users:
+    get:
+      tags:
+        - "users"
+      summary: "Get all user"
+      description: "Index"
+      operationId: "get_all_users"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search:
+                  type: object
+                  properties:
+                    user_name:
+                      type: string
+                      example: "Chip Munk"
+                    school_name:
+                      type: string
+                      example: "Thiel Inc"
+                    gender:
+                      type: integer
+                      enum: [0, 1, 2]
+                      example: 1
+                    from:
+                      type: string
+                      description: "YYYY-MM-DD"
+                      example: "2020-01-01"
+                    to:
+                      type: integer
+                      description: "YYYY-MM-DD"
+                      example: "2020-01-01"
+                pagination:
+                  type: object
+                  properties:
+                    page:
+                      type: integer
+                      example: 1
+                    per:
+                      type: integer
+                      example: 10
+      responses:
+        "200":
+          description: "All users loaded successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: "Chip Munk"
+                  school_name:
+                    type: string
+                  gender:
+                    type: integer
+                    example: 0
+                  birthdate:
+                    description: "YYYY-MM-DD"
+                    example: "1997-29-07"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 400
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Invalid parameters"
+        "404":
+          description: "User Not Found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 404
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "We can't find what you were looking for"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 500
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Something went wrong on our end"
+    post:
+      tags:
+        - "users"
+      summary: "Create User"
+      description: "MP-AP-100"
+      operationId: "createUser"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: "duy@gmail.com"
+                    password:
+                      type: string
+                      example: "12345678a"
+                    gender:
+                      type: integer
+                      example: 1
+                    school_id:
+                      type: integer
+                      example: 1
+              required:
+                - user
+      responses:
+        "201":
+          description: "User created"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: "Chip Munk"
+                  school_name:
+                    type: string
+                  gender:
+                    type: integer
+                    example: 0
+                  birthdate:
+                    description: "YYYY-MM-DD"
+                    example: "1997-29-07"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 400
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Invalid parameters"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 500
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Something went wrong on our end"
+    put:
+      tags:
+        - "users"
+      summary: "Update User"
+      description: "update_user"
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+      operationId: "updateUser"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Chip Munk"
+                school_name:
+                  type: string
+                gender:
+                  type: integer
+                  example: 0
+                birthdate:
+                  description: "YYYY-MM-DD"
+                  example: "1997-29-07"
+      responses:
+        "200":
+          description: "User updated"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: "Chip Munk"
+                  school_name:
+                    type: string
+                  gender:
+                    type: integer
+                    example: 0
+                  birthdate:
+                    description: "YYYY-MM-DD"
+                    example: "1997-29-07"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 400
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Invalid parameters"
+        "404":
+          description: "User Not Found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 404
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "We can't find what you were looking for"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 500
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Something went wrong on our end"
+    delete:
+      tags:
+        - "users"
+      summary: "Delete User"
+      description: "delete_user"
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+      operationId: "deleteUser"
+      responses:
+        "200":
+          description: "User updated"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: "Chip Munk"
+                  school_name:
+                    type: string
+                  gender:
+                    type: integer
+                    example: 0
+                  birthdate:
+                    description: "YYYY-MM-DD"
+                    example: "1997-29-07"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 400
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Invalid parameters"
+        "404":
+          description: "User Not Found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 404
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "We can't find what you were looking for"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 500
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Something went wrong on our end"
+  /api/v1/users/edit:
+    get:
+      tags:
+        - "users"
+      summary: "Edit User"
+      description: "edit_user"
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+            example: 1
+          required: true
+      operationId: "editUser"
+      responses:
+        "200":
+          description: "User updated"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "Thiel Inc"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 400
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Invalid parameters"
+        "404":
+          description: "User Not Found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 404
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "We can't find what you were looking for"
+        "422":
+          description: "Create User Failed"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 422
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "School must exist"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 500
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Something went wrong on our end"
+  /api/v1/users/new:
+    get:
+      tags:
+        - "users"
+      summary: "new User"
+      description: "new_user"
+      operationId: "newUser"
+      responses:
+        "200":
+          description: "Successfully loaded"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "Thiel Inc"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 400
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Invalid parameters"
+        "404":
+          description: "User Not Found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 404
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "We can't find what you were looking for"
+        "422":
+          description: "Create User Failed"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 422
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "School must exist"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      code:
+                        type: object
+                        example: 500
+                      messages:
+                        type: array
+                        items:
+                          type: string
+                          example: "Something went wrong on our end"
+components:
+  schemas:
+    user:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: duy
+            birthdate:
+              type: string
+              example: "2008-03-05"
+            gender:
+              type: integer
+              example: 1
+            dateOfBirth:
+              type: string
+              example: "2019-12-20"
+    school:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: "2008-03-05"
+    enum_descriptions:
+      allOf:
+        - type: object
+          properties:
+            gender:
+              type: integer
+              enum: [0, 1, 2]
+          description: >
+            gender:
+              0: male
+              1: female
+              2: other
